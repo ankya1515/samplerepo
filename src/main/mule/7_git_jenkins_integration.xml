@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b47dfd78-9543-44e2-a965-5f4b97c304ca" >
+		<http:listener-connection host="0.0.0.0" port="8085" />
+	</http:listener-config>
+	<flow name="7_git_jenkins_integrationFlow" doc:id="19373dd1-4367-4d9b-bada-9690e1decaee" >
+		<http:listener doc:name="Listener" doc:id="ab4734c9-ca65-41a5-8f85-688a3ddaa2d8" config-ref="HTTP_Listener_config" path="/integration" allowedMethods="GET"/>
+		<set-payload value="#['Hello. This is the Integration Project.']" doc:name="Set Payload" doc:id="b5b8db50-e931-4de5-8403-1ad48beb69cf" />
+		<ee:transform doc:name="Transform Message" doc:id="a8cc74be-a8ca-45fa-bef7-68a77289a626" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
